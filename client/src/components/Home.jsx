@@ -1,58 +1,32 @@
-import React, { Component } from "react";
+import React from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { fetchUsers } from "../api";
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: undefined,
-      users: []
-    };
+function Home() {
+
+  const queryClient = useQueryClient();
+  const { isLoading, isError, data, error } = useQuery('users', fetchUsers);
+
+  if (isLoading) {
+    return <span>Loading...</span>
   }
 
-  async loadProfile() {
-    const serverURL = process.env.REACT_APP_SERVER_URL ?? 'http://localhost:4200';
-    try {
-      const response = await fetch(`${serverURL}/user/profile`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true
-        }
-      });
-      const responseJSON = await response.json();
-      this.setState({ user: responseJSON });
-    } catch (e) {
-      console.error(e);
-    }
+  if (isError) {
+    return <span>Error: {error}</span>
   }
 
-  async componentDidMount() {
-    const serverURL = process.env.REACT_APP_SERVER_URL ?? 'http://localhost:4200';
-    try {
-      const response = await fetch(`${serverURL}/user/all`);
-      const responseJSON = await response.json();
-      this.setState({ users: responseJSON });
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  render() {
-    return (
-      <>
-        <h1>Hello World!</h1>
-        <ul>
+  return (
+    <>
+      <h1>Hello World!</h1>
+      <ul>
         {
-          this.state.users.map((value) => {
-            return <li key={value._id}>name: { value.name }, bio: { value.bio }</li>
+          data.map((value) => {
+            return <li key={value._id}>name: {value.name}, bio: {value.bio}</li>
           })
         }
-        </ul>
-      </>
-    )
-  }
+      </ul>
+    </>
+  )
 }
 
 export default Home;

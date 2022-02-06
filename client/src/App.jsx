@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from "react-router-dom";
+import { fetchProfile } from './api';
+import AppNavbar from './components/AppNavbar';
 import Callback from './components/Callback';
 import Home from './components/Home';
 
-class App extends Component {
-  render() {
-    return (
-      <>
-        <button onClick={this.handleSignInClick}>Sign in with GitHub</button>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/callback" element={<Callback />} />
-          </Routes>
-        </Router>
-      </>
-    );
-  }
+function App() {
+  const queryClient = useQueryClient();
+  const { isLoading, isError, data, error } = useQuery('user', fetchProfile);
+  console.log(data);
 
-  async handleSignInClick() {
-    const serverURL = process.env.REACT_APP_SERVER_URL ?? 'http://localhost:4200'
-    window.location.href = `${serverURL}/auth/github`
-  }
+  return (
+    <>
+      <AppNavbar />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/callback" element={<Callback />} />
+        </Routes>
+      </Router>
+    </>
+  );
 }
 
 export default App;

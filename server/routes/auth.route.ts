@@ -12,12 +12,19 @@ router.get('/github',
   function (req, res) {
     // The request will be redirected to GitHub for authentication, so this
     // function will not be called.
-  });
+  }
+);
 
 router.get('/github/callback',
   passport.authenticate('github', {
     failureRedirect: '/login',
     successRedirect: `${clientURL}/`
-  }));
+  })
+);
+
+router.get('/signout', (req, res) => {
+  req.logOut();
+  res.redirect(`${clientURL}/`);
+})
 
 export default router;
