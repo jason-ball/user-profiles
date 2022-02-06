@@ -40,4 +40,9 @@ router.get('/profile', isLoggedIn, (req, res) => {
   res.json(req.user);
 })
 
+router.get('/all', async (req, res) => {
+  const users = await User.find({}, 'name bio');
+  return res.json(users);
+})
+
 export default router;
