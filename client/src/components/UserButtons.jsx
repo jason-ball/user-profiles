@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { fetchProfile } from '../api';
 import ProfileModal from './ProfileModal';
 
-export default function UserButtons(props) {
-  const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = useQuery('user', fetchProfile);
+export default function UserButtons() {
+  const { data } = useQuery('user', fetchProfile);
 
   const [show, setShow] = useState(false);
 

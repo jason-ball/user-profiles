@@ -8,10 +8,10 @@ export default function ProfileModal(props) {
   const [bio, setBio] = useState(props.bio);
   const [publicProfile, setPublicProfile] = useState(props.public);
   const [selectedFile, setSelectedFile] = useState();
-	const [isFilePicked, setIsFilePicked] = useState(false);
+	const [, setIsFilePicked] = useState(false);
 
   const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = useQuery('user', fetchProfile);
+  const { data } = useQuery('user', fetchProfile);
   const mutation = useMutation((profile) => updateProfile(profile), {
     onSuccess() {
       queryClient.invalidateQueries();

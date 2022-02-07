@@ -3,7 +3,6 @@ import {
   Navbar,
   Container,
   Nav,
-  NavDropdown
 } from 'react-bootstrap';
 import { useQuery } from 'react-query';
 import { fetchProfile } from '../api';
@@ -11,7 +10,7 @@ import SignInButton from './SignInButton';
 import UserButtons from './UserButtons';
 
 export default function AppNavbar() {
-  const { isLoading, isError, data, error } = useQuery('user', fetchProfile);
+  const { data } = useQuery('user', fetchProfile);
   return (
     <Navbar bg="light" expand="lg">
       <Container>
