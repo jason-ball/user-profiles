@@ -41,7 +41,7 @@ router.get('/profile', isLoggedIn, (req, res) => {
 })
 
 router.get('/all', async (req, res) => {
-  const users = await User.find({}, 'name bio');
+  const users = await User.find({}, 'name bio imageURL');
   return res.json(users);
 })
 

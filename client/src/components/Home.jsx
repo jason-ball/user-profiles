@@ -1,6 +1,8 @@
 import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { useQuery, useQueryClient } from "react-query";
 import { fetchUsers } from "../api";
+import UserCard from "./UserCard";
 
 function Home() {
 
@@ -15,17 +17,19 @@ function Home() {
     return <span>Error: {error}</span>
   }
 
+  console.log(data)
+
   return (
-    <>
+    <Container>
       <h1>Hello World!</h1>
-      <ul>
-        {
-          data.map((value) => {
-            return <li key={value._id}>name: {value.name}, bio: {value.bio}</li>
-          })
-        }
-      </ul>
-    </>
+      <Row xs={1} md={2} lg={3} className="g-4">
+        {data.map((user) => (
+          <Col key={user._id}>
+            <UserCard name={user.name} bio={user.bio} image={user.imageURL} />
+          </Col>
+        ))}
+      </Row>
+    </Container>
   )
 }
 

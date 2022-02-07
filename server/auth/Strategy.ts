@@ -12,11 +12,14 @@ passport.use(new Strategy({
       githubID: profile._json.id
     });
 
+    console.log(profile)
+
     if (!currentUser) {
       const newUser = await new User({
         name: profile._json.name,
         bio: profile._json.bio,
-        githubID: profile._json.id
+        githubID: profile._json.id,
+        imageURL: profile._json.avatar_url,
       }).save();
       if (newUser) {
         return done(null, newUser);

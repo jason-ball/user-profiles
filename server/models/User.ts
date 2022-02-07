@@ -3,7 +3,8 @@ import { Schema, model } from 'mongoose';
 interface UserModel {
   name: String,
   bio: String,
-  githubID: Number
+  githubID: Number,
+  imageURL: String,
 }
 
 const userSchema = new Schema<UserModel>({
@@ -18,6 +19,9 @@ const userSchema = new Schema<UserModel>({
   githubID: {
     type: Number,
     require: true
+  },
+  imageURL: {
+    type: String
   }
 });
 
