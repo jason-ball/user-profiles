@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { fetchProfile, updateProfile } from '../api';
+import { fetchProfile, updatePhoto, updateProfile } from '../api';
 
 export default function ProfileModal(props) {
   const [name, setName] = useState(props.name);
   const [bio, setBio] = useState(props.bio);
   const [publicProfile, setPublicProfile] = useState(props.public);
+  const [selectedFile, setSelectedFile] = useState();
+	const [isFilePicked, setIsFilePicked] = useState(false);
 
   const queryClient = useQueryClient();
   const { isLoading, isError, data, error } = useQuery('user', fetchProfile);
@@ -14,6 +16,12 @@ export default function ProfileModal(props) {
     onSuccess() {
       queryClient.invalidateQueries();
       props.handleClose();
+    }
+  });
+
+  const photoMutation = useMutation((file) => updatePhoto(file), {
+    onSuccess() {
+      window.location.reload(false);
     }
   });
 
@@ -25,7 +33,20 @@ export default function ProfileModal(props) {
       bio: bio || data.bio,
       publicProfile: publicProfile,
     });
+    handleSubmission();
   }
+
+  const changeHandler = (event) => {
+		setSelectedFile(event.target.files[0]);
+		setIsFilePicked(true);
+	};
+
+	const handleSubmission = () => {
+    const formData = new FormData();
+		formData.append('photo', selectedFile);
+
+    photoMutation.mutate(formData);
+	};
 
   return (
     <Modal show={props.show} onHide={props.handleClose}>
@@ -34,6 +55,10 @@ export default function ProfileModal(props) {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleFormSubmit}>
+        <Form.Group className="mb-3">
+            <Form.Label>Photo</Form.Label>
+            <Form.Control type="file" placeholder="Enter name" onChange={changeHandler} />
+          </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control type="text" placeholder="Enter name" defaultValue={data.name} onChange={(e) => setName(e.target.value)} />

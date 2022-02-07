@@ -7,7 +7,9 @@ export default function UserCard(props) {
       <Card.Body>
         <Row>
           <Col xs={3} className="d-flex flex-wrap align-items-center">
-            <Image src={props.image} fluid roundedCircle />
+            <div className="circular--portrait">
+              <img src={props.image} alt={props.name} />
+            </div>
           </Col>
           <Col>
             <Card.Title>{props.name}</Card.Title>

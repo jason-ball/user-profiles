@@ -8,6 +8,7 @@ import passport from 'passport';
 import cookieSession from 'cookie-session';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 import User from './models/User';
 
@@ -48,6 +49,11 @@ async function main() {
   );
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   app.use(express.json());
+  app.use('/static', express.static('build/static', {
+    etag: false,
+    maxAge: 0
+  }));
+  app.use(fileUpload());
   // Express routes (from routes folder)
   app.use('/user', userRoute);
   app.use('/auth', authRoute);

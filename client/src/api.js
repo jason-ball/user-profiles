@@ -34,3 +34,13 @@ export async function updateProfile(body) {
 
   return response.json();
 }
+
+export async function updatePhoto(body) {
+  const response = await fetch(`${serverURL}/user/photo`, {
+    method: 'PUT',
+    credentials: 'include',
+    body: body,
+  });
+
+  return response.json();
+}

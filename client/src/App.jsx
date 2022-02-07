@@ -12,10 +12,6 @@ import Callback from './components/Callback';
 import Home from './components/Home';
 
 function App() {
-  const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = useQuery('user', fetchProfile);
-  console.log(data);
-
   return (
     <>
       <AppNavbar />

@@ -1,13 +1,13 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useQuery, useQueryClient } from "react-query";
-import { fetchUsers } from "../api";
+import { fetchProfile, fetchUsers } from "../api";
 import UserCard from "./UserCard";
 
 function Home() {
 
-  const queryClient = useQueryClient();
   const { isLoading, isError, data, error } = useQuery('users', fetchUsers);
+  const profileQuery = useQuery('user', fetchProfile);
 
   if (isLoading) {
     return <span>Loading...</span>
@@ -17,11 +17,16 @@ function Home() {
     return <span>Error: {error}</span>
   }
 
-  console.log(data)
-
   return (
     <Container>
-      <h1>Hello World!</h1>
+      <br />
+      {profileQuery.data &&
+        <h1>Welcome back, { profileQuery.data.name }!</h1>
+      }
+      {!profileQuery.data &&
+        <h1>Welcome, please sign in.</h1>
+      }
+      <br />
       <Row xs={1} md={2} lg={3} className="g-4">
         {data.map((user) => (
           <Col key={user._id}>
