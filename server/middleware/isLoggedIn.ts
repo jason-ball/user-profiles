@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
 export default function isLoggedIn(req: Request, res: Response, next: NextFunction) {
   if (req.user) {

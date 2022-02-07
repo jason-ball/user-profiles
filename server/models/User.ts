@@ -19,16 +19,16 @@ const userSchema = new Schema<UserModel>({
   },
   githubID: {
     type: Number,
-    require: true
+    require: true,
   },
   imageURL: {
-    type: String
+    type: String,
   },
   publicProfile: {
     type: Boolean,
     require: true,
     default: false,
-  }
+  },
 });
 
 const User = model<UserModel>('User', userSchema);
