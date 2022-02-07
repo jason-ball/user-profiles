@@ -22,3 +22,15 @@ export async function fetchUsers() {
   const response = await fetch(`${serverURL}/user/all`);
   return response.json();
 }
+
+export async function updateProfile(body) {
+  console.log(`body: ${JSON.stringify(body)}`)
+  const response = await fetch(`${serverURL}/user/update`, {
+    method: 'POST',
+    credentials: 'include',
+    body: JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  return response.json();
+}

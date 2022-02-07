@@ -1,10 +1,11 @@
 import { Schema, model } from 'mongoose';
 
-interface UserModel {
+export interface UserModel {
   name: String,
   bio: String,
   githubID: Number,
   imageURL: String,
+  publicProfile: Boolean,
 }
 
 const userSchema = new Schema<UserModel>({
@@ -22,6 +23,11 @@ const userSchema = new Schema<UserModel>({
   },
   imageURL: {
     type: String
+  },
+  publicProfile: {
+    type: Boolean,
+    require: true,
+    default: false,
   }
 });
 

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { body, validationResult } from 'express-validator';
 import passport from 'passport';
 import isLoggedIn from '../middleware/isLoggedIn';
-import User from '../models/User';
+import User, { UserModel } from '../models/User';
 
 const router = Router();
 
@@ -41,8 +41,19 @@ router.get('/profile', isLoggedIn, (req, res) => {
 })
 
 router.get('/all', async (req, res) => {
-  const users = await User.find({}, 'name bio imageURL');
+  const users = await User.find({ publicProfile: true }, 'name bio imageURL publicProfile');
   return res.json(users);
+})
+
+router.post('/update', isLoggedIn, async (req, res) => {
+  console.log(req.body)
+  const user = <UserModel> req.user;
+  const result = await User.updateOne({ githubID: user.githubID }, {
+    name: req.body.name,
+    bio: req.body.bio,
+    publicProfile: req.body.publicProfile
+  });
+  res.send(result.acknowledged);
 })
 
 export default router;

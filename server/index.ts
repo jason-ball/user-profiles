@@ -30,8 +30,6 @@ async function main() {
 
   const app = express();
   // Express middlewares
-  app.use(bodyParser.urlencoded());
-  app.use(bodyParser.json());
   app.use(cookieSession({
     name: 'session',
     keys: [process.env.COOKIE_KEY ?? 'define-a-key-in-the-env-file'],
@@ -49,7 +47,7 @@ async function main() {
     })
   );
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+  app.use(express.json());
   // Express routes (from routes folder)
   app.use('/user', userRoute);
   app.use('/auth', authRoute);
