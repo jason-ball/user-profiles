@@ -5,7 +5,7 @@
 To build and run the server, run these commands:
 ```bash
 cd server
-npm run build && npm start
+npm start
 ```
 
 ## Building the UI:
